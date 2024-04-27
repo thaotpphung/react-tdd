@@ -15,37 +15,37 @@ describe('UserSignupPage', () => {
 
     it('has input for display name', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const displayNameInput = queryByPlaceholderText('Your display name');
+      const displayNameInput = queryByPlaceholderText('Display Name');
       expect(displayNameInput).toBeInTheDocument();
     });
 
     it('has input for username', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const usernameInput = queryByPlaceholderText('Your username');
+      const usernameInput = queryByPlaceholderText('Username');
       expect(usernameInput).toBeInTheDocument();
     });
 
     it('has input for password', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const passwordInput = queryByPlaceholderText('Your password');
+      const passwordInput = queryByPlaceholderText('Password');
       expect(passwordInput).toBeInTheDocument();
     });
 
     it('has password type for password input', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const passwordInput = queryByPlaceholderText('Your password');
+      const passwordInput = queryByPlaceholderText('Password');
       expect(passwordInput.type).toBe('password');
     });
 
     it('has input for password repeat', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const passwordRepeat = queryByPlaceholderText('Repeat your password');
+      const passwordRepeat = queryByPlaceholderText('Repeat Password');
       expect(passwordRepeat).toBeInTheDocument();
     });
 
     it('has password type for password repeat input', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const passwordRepeat = queryByPlaceholderText('Repeat your password');
+      const passwordRepeat = queryByPlaceholderText('Repeat Password');
       expect(passwordRepeat.type).toBe('password');
     });
 
@@ -75,10 +75,10 @@ describe('UserSignupPage', () => {
       const rendered = render(<UserSignupPage {...props} />);
 
       const { container, queryByPlaceholderText } = rendered;
-      displayNameInput = queryByPlaceholderText('Your display name');
-      usernameInput = queryByPlaceholderText('Your username');
-      passwordInput = queryByPlaceholderText('Your password');
-      passwordRepeatInput = queryByPlaceholderText('Repeat your password');
+      displayNameInput = queryByPlaceholderText('Display Name');
+      usernameInput = queryByPlaceholderText('Username');
+      passwordInput = queryByPlaceholderText('Password');
+      passwordRepeatInput = queryByPlaceholderText('Repeat Password');
 
       fireEvent.change(displayNameInput, changeEvent('my-display-name'));
       fireEvent.change(usernameInput, changeEvent('my-user-name'));
@@ -91,28 +91,28 @@ describe('UserSignupPage', () => {
 
     it('sets the displayName value into state', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const displayNameInput = queryByPlaceholderText('Your display name');
+      const displayNameInput = queryByPlaceholderText('Display Name');
       fireEvent.change(displayNameInput, changeEvent('my-display-name'));
       expect(displayNameInput).toHaveValue('my-display-name');
     });
 
     it('sets the username value into state', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const usernameInput = queryByPlaceholderText('Your username');
+      const usernameInput = queryByPlaceholderText('Username');
       fireEvent.change(usernameInput, changeEvent('my-username-name'));
       expect(usernameInput).toHaveValue('my-username-name');
     });
 
     it('sets the password value into state', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const passwordInput = queryByPlaceholderText('Your password');
+      const passwordInput = queryByPlaceholderText('Password');
       fireEvent.change(passwordInput, changeEvent('P4ssword'));
       expect(passwordInput).toHaveValue('P4ssword');
     });
 
     it('sets the password repeat value into state', () => {
       const { queryByPlaceholderText } = render(<UserSignupPage />);
-      const passwordRepeat = queryByPlaceholderText('Repeat your password');
+      const passwordRepeat = queryByPlaceholderText('Repeat Password');
       fireEvent.change(passwordRepeat, changeEvent('P4ssword'));
       expect(passwordRepeat).toHaveValue('P4ssword');
     });
