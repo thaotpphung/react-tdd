@@ -1,14 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-const UserSignupPage = ({
-  actions = {
-    postSignup: () =>
-      new Promise((resolve, reject) => {
-        resolve({});
-      }),
-  },
-}) => {
+const UserSignupPage = ({ actions }) => {
   const [displayName, setDisplayName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
