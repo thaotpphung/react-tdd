@@ -15,7 +15,8 @@ const UserSignupPage = ({
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
   const [pendingApiCall, setPendingApiCall] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [passwordRepeatConfirmed, setPasswordRepeatConfirmed] = useState(true);
 
   const onClickSignup = async () => {
     const user = {
@@ -37,39 +38,69 @@ const UserSignupPage = ({
     }
   };
 
+  const disabledButtonClass =
+    'mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500';
+
+  const buttonClass =
+    'w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800';
+
+  const disabledButton = pendingApiCall || !passwordRepeatConfirmed;
+
   const inputs = [
     {
       label: 'Display Name',
       value: displayName,
-      setValue: setDisplayName,
+      onChange: (event) => {
+        setDisplayName(event.target.value);
+        const newErrors = { ...errors };
+        delete newErrors.displayName;
+        setErrors(newErrors);
+      },
       stateName: 'displayName',
     },
     {
       label: 'Username',
       value: username,
-      setValue: setUsername,
+      onChange: (event) => {
+        setUsername(event.target.value);
+        const newErrors = { ...errors };
+        delete newErrors.username;
+        setErrors(newErrors);
+      },
       stateName: 'username',
     },
     {
       label: 'Password',
       value: password,
-      setValue: setPassword,
+      onChange: (event) => {
+        const value = event.target.value;
+        setPassword(value);
+        const isValid = value === passwordRepeat;
+        setPasswordRepeatConfirmed(isValid);
+        const newErrors = { ...errors };
+        delete newErrors.password;
+        newErrors.passwordRepeat = isValid ? '' : 'Does not match to password';
+        setErrors(newErrors);
+      },
       type: 'password',
       stateName: 'password',
     },
     {
       label: 'Repeat Password',
       value: passwordRepeat,
-      setValue: setPasswordRepeat,
+      onChange: (event) => {
+        const value = event.target.value;
+        setPasswordRepeat(value);
+        const isValid = value === password;
+        setPasswordRepeatConfirmed(isValid);
+        const newErrors = { ...errors };
+        newErrors.passwordRepeat = isValid ? '' : 'Does not match to password';
+        setErrors(newErrors);
+      },
       type: 'password',
       stateName: 'passwordRepeat',
     },
   ];
-
-  const inputErrorClass =
-    'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 block w-full p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500';
-  const inputClass =
-    'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark: dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500';
 
   return (
     <div>
@@ -81,7 +112,7 @@ const UserSignupPage = ({
                 Sign Up
               </h1>
               <form className="space-y-4 md:space-y-6">
-                {inputs.map(({ label, value, setValue, type, stateName }) => {
+                {inputs.map(({ label, value, onChange, type, stateName }) => {
                   return (
                     <Input
                       key={label}
@@ -90,7 +121,7 @@ const UserSignupPage = ({
                       label={label}
                       placeholder={label}
                       value={value}
-                      onChange={(event) => setValue(event.target.value)}
+                      onChange={onChange}
                       type={type}
                     />
                   );
@@ -98,12 +129,14 @@ const UserSignupPage = ({
                 <div className="flex justify-center">
                   <button
                     type="submit"
-                    className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    className={`${
+                      disabledButton ? disabledButtonClass : buttonClass
+                    }`}
                     onClick={(event) => {
                       event.preventDefault();
                       onClickSignup();
                     }}
-                    disabled={pendingApiCall}
+                    disabled={disabledButton}
                   >
                     <div role="status">
                       {pendingApiCall && (
